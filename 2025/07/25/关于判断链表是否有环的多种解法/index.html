@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>关于链表是否有环的多种解法 | 龙之介的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="关于判断链表是否有环的多种解法今天闲来无事看到一个小米面试视频，其中问到了面试者除了快慢指针之外的解法，博主觉得很有意义，于是总结了一下。 1. 定义快慢指针go源代码： func hasCycle(head *ListNode) bool {    if head &#x3D;&#x3D; nil || head.Next &#x3D;&#x3D; nil {        return f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于链表是否有环的多种解法">
+<meta property="og:url" content="http://wyz-ryounsk.icu/2025/07/25/%E5%85%B3%E4%BA%8E%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF%E7%9A%84%E5%A4%9A%E7%A7%8D%E8%A7%A3%E6%B3%95/index.html">
+<meta property="og:site_name" content="龙之介的博客">
+<meta property="og:description" content="关于判断链表是否有环的多种解法今天闲来无事看到一个小米面试视频，其中问到了面试者除了快慢指针之外的解法，博主觉得很有意义，于是总结了一下。 1. 定义快慢指针go源代码： func hasCycle(head *ListNode) bool {    if head &#x3D;&#x3D; nil || head.Next &#x3D;&#x3D; nil {        return f">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-07-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-25T16:36:18.886Z">
+<meta property="article:author" content="Ryounsk">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="龙之介的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/wyz.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<!-- 不蒜子访问量统计 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="busuanzi-count" style="text-align: center; margin: 15px 0; color: #888; font-size: 14px;">
+  总访问量：<span id="busuanzi_value_site_pv"></span> 次 | 
+  访客数：<span id="busuanzi_value_site_uv"></span> 人
+</div>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">龙之介的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">peace and love</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://wyz-ryounsk.icu"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+  
+
+  <div class="article-card">
+    <header class="article-header">
+      <h1 class="article-title" itemprop="name">
+        
+          关于链表是否有环的多种解法
+        
+      </h1>
+
+      
+      <div class="article-meta">
+        <time datetime="2025-07-24T16:00:00.000Z" itemprop="datePublished">2025年7月25日</time>
+        
+        
+      </div>
+      
+    </header>
+
+    <div class="article-content" itemprop="articleBody">
+      
+        <span id="more"></span>
+
+<h1 id="关于判断链表是否有环的多种解法"><a href="#关于判断链表是否有环的多种解法" class="headerlink" title="关于判断链表是否有环的多种解法"></a>关于判断链表是否有环的多种解法</h1><p>今天闲来无事看到一个小米面试视频，其中问到了面试者除了快慢指针之外的解法，<br>博主觉得很有意义，于是总结了一下。</p>
+<h2 id="1-定义快慢指针"><a href="#1-定义快慢指针" class="headerlink" title="1. 定义快慢指针"></a>1. 定义快慢指针</h2><p>go源代码：</p>
+<p>func hasCycle(head *ListNode) bool {<br>    if head &#x3D;&#x3D; nil || head.Next &#x3D;&#x3D; nil {<br>        return false<br>    }</p>
+<pre><code>slow := head
+fast := head.Next
+
+for slow != fast &#123;
+    if fast == nil || fast.Next == nil &#123;
+        return false
+    &#125;
+    slow = slow.Next      // 慢指针走一步
+    fast = fast.Next.Next // 快指针走两步
+&#125;
+return true
+</code></pre>
+<p>}</p>
+<h2 id="2-哈希表-集合存储访问过的节点"><a href="#2-哈希表-集合存储访问过的节点" class="headerlink" title="2. 哈希表 &#x2F; 集合存储访问过的节点"></a>2. 哈希表 &#x2F; 集合存储访问过的节点</h2><p>遍历链表时，将每个节点存入哈希表 &#x2F; 集合中<br>每次访问新节点前，先检查该节点是否已在集合中<br>如果存在，则说明有环；如果遍历结束仍未重复，则无环<br>时间复杂度 O (n)，空间复杂度 O (n)</p>
+<p>python源代码：</p>
+<p>def hasCycle(head):<br>    visited &#x3D; set()<br>    current &#x3D; head<br>    while current:<br>        if current in visited:<br>            return True<br>        visited.add(current)<br>        current &#x3D; current.next<br>    return False</p>
+<h2 id="3-修改节点值标记访问过的节点"><a href="#3-修改节点值标记访问过的节点" class="headerlink" title="3. 修改节点值标记访问过的节点"></a>3. 修改节点值标记访问过的节点</h2><p>遍历链表时，将访问过的节点值修改为一个特殊标记（如 None 或特定值）<br>当遇到值为特殊标记的节点时，说明有环<br>缺点是会修改原链表数据<br>时间复杂度 O (n)，空间复杂度 O (1)</p>
+<p>python源代码：</p>
+<p>def hasCycle(head):<br>    current &#x3D; head<br>    while current:<br>        if current.val is None:  # 假设原链表中没有None值<br>            return True<br>        current.val &#x3D; None  # 标记为已访问<br>        current &#x3D; current.next<br>    return False</p>
+<h2 id="4-递归回溯标记法"><a href="#4-递归回溯标记法" class="headerlink" title="4. 递归回溯标记法"></a>4. 递归回溯标记法</h2><p>利用递归栈回溯的特性，在递归过程中标记访问过的节点<br>递归返回时恢复节点状态（可选）<br>时间复杂度 O (n)，空间复杂度 O (n)（递归栈开销）</p>
+<p>python源代码：</p>
+<p>def hasCycle(head):<br>    if not head:<br>        return False<br>    if head.val is None:  # 遇到已标记的节点，说明有环<br>        return True<br>    head.val &#x3D; None  # 标记当前节点<br>    result &#x3D; hasCycle(head.next)<br>    # 可选：恢复节点值<br>    # head.val &#x3D; original_value<br>    return result</p>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h2><h3 id="1-快慢指针法（Floyd-判圈算法）"><a href="#1-快慢指针法（Floyd-判圈算法）" class="headerlink" title="1. 快慢指针法（Floyd 判圈算法）"></a>1. 快慢指针法（Floyd 判圈算法）</h3><p>核心原理：通过两个移动速度不同的指针（慢指针一次走 1 步，快指针一次走 2 步）遍历链表，若存在环，两指针最终会在环内相遇；若不存在环，快指针会先到达链表尾部。<br>优点：<br>时间复杂度 O (n)，只需一次遍历即可完成判断<br>空间复杂度 O (1)，不需要额外存储空间，仅使用两个指针<br>不修改链表原有数据，是无损操作<br>缺点：<br>逻辑相对复杂，需要理解指针相遇的原理<br>无法直接定位环的入口点（需额外步骤）<br>适用场景：对空间复杂度要求严格，且不希望修改原链表的场景，是实际开发中的首选方案。</p>
+<h3 id="2-哈希表-集合存储法"><a href="#2-哈希表-集合存储法" class="headerlink" title="2. 哈希表 &#x2F; 集合存储法"></a>2. 哈希表 &#x2F; 集合存储法</h3><p>核心原理：利用哈希表 &#x2F; 集合存储已访问过的节点，每次访问新节点时检查是否已在集合中，若存在则说明有环。<br>优点：<br>逻辑简单直观，容易理解和实现<br>不仅能判断是否有环，还能定位环的入口点（第一个重复出现的节点）<br>缺点：<br>空间复杂度 O (n)，需要存储所有访问过的节点<br>对于大型链表，额外的空间开销可能成为问题<br>适用场景：对空间复杂度要求不高，更注重代码可读性和实现便捷性的场景。</p>
+<h3 id="3-修改节点值标记法"><a href="#3-修改节点值标记法" class="headerlink" title="3. 修改节点值标记法"></a>3. 修改节点值标记法</h3><p>核心原理：遍历过程中修改已访问节点的值为特殊标记，当再次遇到该标记时说明有环。<br>优点：<br>空间复杂度 O (1)，不需要额外存储空间<br>实现逻辑简单直接<br>缺点：<br>会永久性修改链表节点的值，破坏原数据（不可逆操作）<br>依赖链表中不存在的特殊标记值，存在潜在冲突风险<br>适用场景：仅适用于可以修改原链表且对数据完整性要求不高的特殊场景，实际开发中很少使用。</p>
+<h3 id="4-递归回溯标记法-1"><a href="#4-递归回溯标记法-1" class="headerlink" title="4. 递归回溯标记法"></a>4. 递归回溯标记法</h3><p>核心原理：利用递归调用栈的特性，在递归过程中标记节点，回溯时可选择恢复节点状态。<br>优点：<br>可以通过回溯恢复节点原值，避免永久修改数据<br>逻辑上体现了深度优先遍历的思想<br>缺点：<br>空间复杂度 O (n)，递归调用栈的深度等同于链表长度<br>对于过长的链表可能导致栈溢出（stack overflow）<br>实现相对复杂，需要处理递归边界和状态恢复<br>适用场景：几乎不用于实际生产环境，更多是理论上的实现方式，仅在特殊递归场景下可能考虑。</p>
+
+      
+    </div>
+
+    
+
+    
+      <footer class="article-footer">
+        
+          <div class="article-tag">
+            
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+            
+          </div>
+        
+      </footer>
+    
+  </div>
+
+  
+
+  
+</article>
+
+
+  <div class="article-comments" id="comments">
+    
+  </div>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/07/">七月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">五月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/07/25/%E5%85%B3%E4%BA%8E%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF%E7%9A%84%E5%A4%9A%E7%A7%8D%E8%A7%A3%E6%B3%95/">关于链表是否有环的多种解法</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/25/go%E8%AF%AD%E8%A8%80%E5%89%8D%E6%99%AF%E4%B8%8E%E6%8A%80%E6%9C%AF%E8%A7%A3%E6%9E%90/">敢问go路在何方</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 Ryounsk<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
