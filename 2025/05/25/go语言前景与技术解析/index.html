@@ -209,159 +209,25 @@
   
 
   
+  
+
+  
+  
+    <div class="article-comments">
+      <h3>评论区</h3>
+      <script src="https://utteranc.es/client.js"
+        repo="Ryounsk/Ryounsk.github.io"  
+        issue-term="pathname"  
+        theme="github-light"  
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+  
+
 </article>
 
 
-  <div id="valine-comments" style="margin-top: 40px; font-family: 'Rajdhani', 'Orbitron', sans-serif; max-width: 900px; margin-left: auto; margin-right: auto;">
-    <!-- 未来风格标题（带动态光效） -->
-    <div style="position: relative; margin-bottom: 30px;">
-      <h3 style="color: #00e5ff; font-weight: 600; font-size: 1.6rem; 
-                 padding-bottom: 10px; margin: 0;
-                 position: relative; z-index: 2;
-                 text-transform: uppercase;
-                 letter-spacing: 2px;">
-        <span style="text-shadow: 0 0 10px #00e5ff, 0 0 20px rgba(0, 229, 255, 0.5);">
-          异次元的回响区域
-        </span>
-      </h3>
-      <!-- 标题下方的发光线条 -->
-      <div style="height: 2px; width: 100%; 
-                  background: linear-gradient(90deg, transparent, #00e5ff, transparent);
-                  box-shadow: 0 0 10px #00e5ff;
-                  position: absolute; bottom: 0; left: 0; z-index: 1;"></div>
-    </div>
-    
-    <!-- 评论框容器（带几何切割和动态背景） -->
-    <div id="vcomments" style="border: 1px solid rgba(0, 229, 255, 0.5);
-                            border-radius: 6px;
-                            background: #0a0e17;
-                            padding: 30px;
-                            position: relative;
-                            overflow: hidden;
-                            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);">
-      
-      <!-- 动态网格背景 -->
-      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-                  background-image: 
-                    linear-gradient(rgba(0, 229, 255, 0.1) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(0, 229, 255, 0.1) 1px, transparent 1px);
-                  background-size: 40px 40px;
-                  pointer-events: none;
-                  z-index: 1;
-                  animation: gridMove 15s linear infinite;"></div>
-      
-      <!-- 扫描线效果 -->
-      <div style="position: absolute; top: -100%; left: 0; right: 0; height: 3px;
-                  background: rgba(0, 229, 255, 0.6);
-                  box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
-                  pointer-events: none;
-                  z-index: 2;
-                  animation: scanLine 4s linear infinite;"></div>
-      
-      <!-- 边角装饰三角形 -->
-      <div style="position: absolute; top: 0; left: 0; width: 0; height: 0;
-                  border-top: 30px solid rgba(121, 40, 255, 0.3);
-                  border-right: 30px solid transparent;
-                  pointer-events: none; z-index: 1;"></div>
-      <div style="position: absolute; bottom: 0; right: 0; width: 0; height: 0;
-                  border-bottom: 30px solid rgba(121, 40, 255, 0.3);
-                  border-left: 30px solid transparent;
-                  pointer-events: none; z-index: 1;"></div>
-    </div>
-    
-    <!-- 加载Valine核心库 -->
-    <script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script>
-    
-    <script>
-      // 定义动画
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes gridMove {
-          0% { background-position: 0 0; }
-          100% { background-position: 40px 40px; }
-        }
-        @keyframes scanLine {
-          0% { top: -10%; }
-          100% { top: 100%; }
-        }
-        @keyframes pulse {
-          0%, 100% { box-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
-          50% { box-shadow: 0 0 25px rgba(0, 229, 255, 0.8); }
-        }
-      `;
-      document.head.appendChild(style);
-
-      // 写死变量，直接配置Valine（无需依赖外部模板）
-      new Valine({
-        el: '#vcomments',
-        appId: 'KcVClzJC2hNzmOArgppxWhM7-MdYXbMMI',
-        appKey: 'mWLMvt5Q276j8Yb4Me80il9D',
-        serverURLs: 'wyz-ryounsk.icu',
-        avatar: 'robohash',
-        placeholder: 'INPUT DATA >>',
-        visitor: true,
-        comment_count: true,
-        recordIP: false,
-        path: window.location.pathname,
-        requiredFields: ['nick'],  // 只需要昵称
-        meta: ['nick']
-      });
-
-      // 动态添加未来风格样式
-      document.addEventListener('DOMContentLoaded', function() {
-        // 隐藏邮箱输入框
-        const emailInput = document.querySelector('#vcomments input[name="mail"]').parentNode;
-        if (emailInput) emailInput.style.display = 'none';
-
-        // 评论输入框样式
-        const textarea = document.querySelector('#vcomments textarea');
-        if (textarea) {
-          textarea.style.backgroundColor = 'rgba(10, 20, 40, 0.9)';
-          textarea.style.color = '#00e5ff';
-          textarea.style.border = '1px solid rgba(0, 229, 255, 0.5)';
-          textarea.style.padding = '15px';
-          textarea.style.fontFamily = 'Rajdhani, Orbitron, sans-serif';
-          textarea.style.minHeight = '140px';
-          textarea.style.textShadow = '0 0 5px rgba(0, 229, 255, 0.5)';
-          textarea.addEventListener('focus', () => {
-            textarea.style.boxShadow = '0 0 15px rgba(0, 229, 255, 0.5) inset';
-          });
-        }
-
-        // 昵称输入框样式
-        const nickInput = document.querySelector('#vcomments input[name="nick"]');
-        if (nickInput) {
-          nickInput.style.backgroundColor = 'rgba(10, 20, 40, 0.9)';
-          nickInput.style.color = '#7928ff';
-          nickInput.style.border = '1px solid rgba(121, 40, 255, 0.5)';
-          nickInput.style.padding = '12px';
-          nickInput.style.fontFamily = 'Rajdhani, Orbitron, sans-serif';
-          nickInput.placeholder = 'USER ID';
-          nickInput.style.textShadow = '0 0 5px rgba(121, 40, 255, 0.5)';
-          nickInput.addEventListener('focus', () => {
-            nickInput.style.boxShadow = '0 0 15px rgba(121, 40, 255, 0.5)';
-          });
-        }
-
-        // 按钮样式（带呼吸灯效果）
-        const buttons = document.querySelectorAll('#vcomments button');
-        buttons.forEach(btn => {
-          btn.style.background = 'linear-gradient(90deg, rgba(0,229,255,0.2) 0%, rgba(121,40,255,0.2) 100%)';
-          btn.style.color = '#00e5ff';
-          btn.style.border = '1px solid #00e5ff';
-          btn.style.padding = '10px 25px';
-          btn.style.fontFamily = 'Rajdhani, Orbitron, sans-serif';
-          btn.style.animation = 'pulse 3s infinite';
-          btn.addEventListener('mouseover', () => {
-            btn.style.boxShadow = '0 0 20px rgba(0, 229, 255, 0.7)';
-          });
-          btn.addEventListener('mouseout', () => {
-            btn.style.boxShadow = 'none';
-          });
-        });
-      });
-    </script>
-  </div>
 </section>
         
           <aside id="sidebar">
